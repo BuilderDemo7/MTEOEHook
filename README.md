@@ -6,6 +6,10 @@ It only works for the Nestlé/World-Wide version of the game.
 M.T.E:O.E Hook running on Windows:                   
 ![mteoehook](https://github.com/BuilderDemo7/MTEOEHook/blob/master/mteoehook.png)
 
+# Discord Server
+New members are very welcome!                    
+https://discord.gg/hVexf6SMye
+
 # Online Multiplayer
 The online multiplayer mod is still W.i.P, to enable it go to the configuration file **MTEOEHook.ini** 
 and set **Multiplayer** to 1.              
