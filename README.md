@@ -2,7 +2,8 @@
 **MTEOEHook** is a open-source trainer and online multiplayer client for *Monster Trux Extreme: Offroad Edition*.                             
 It allows you to use some cheats, customize controls and use a W.i.P online multiplayer so you can play with multiple friends.                     
 
-M.T.E:O.E Hook running on Windows:
+It only works for the Nestlé/World-Wide version of the game.                    
+M.T.E:O.E Hook running on Windows:                   
 ![mteoehook](https://github.com/BuilderDemo7/MTEOEHook/blob/master/mteoehook.png)
 
 # Online Multiplayer
