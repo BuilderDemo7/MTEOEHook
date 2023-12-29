@@ -20,6 +20,8 @@ static SOCKET playersSockets[8] = {NULL};
 static char* playersLastBuffer[8] = {};
 static const char* playersNames[8] = {NULL};
 
+static int lastPlayerId = -1;
+
 //void PrepareSocket(short port, ULONG ip);
 bool PrepareServer(short port, const char* ip);
 

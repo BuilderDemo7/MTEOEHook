@@ -131,9 +131,9 @@ void NetRecord()
 						if (vx < sus && vz < sus && vx > -sus && vz > -sus) 
 						{
 							veh->SetVelocity(Vector4(vx, vy, vz, vw));
-							veh->SetAngularVelocity(Vector4(avx, avy, avz, avw));
+							//veh->SetAngularVelocity(Vector4(avx, avy, avz, avw));
 						}
-						printf("Recording player position at %f, %f, %f\nVelocity of %f %f %f\n", x, y, z, vx, vy, vz);
+						printf("Recording player position at %f, %f, %f\nVelocity of %f, %f, %f\nAngular Velocity of %f, %f, %f, %f\n", x, y, z, vx, vy, vz, avx, avy, avz, avw);
 					}
 					veh->SetBoostingTime(boost);
 					veh->SetDamage(damage);
