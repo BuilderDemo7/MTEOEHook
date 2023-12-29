@@ -8,6 +8,7 @@ public:
 	void operator*(float multiplier);
 
 	Vector4();
+	void Lerp(Vector4 with, float point);
 	Vector4(float x, float y, float z);
 	Vector4(float x, float y, float z, float w);
 };

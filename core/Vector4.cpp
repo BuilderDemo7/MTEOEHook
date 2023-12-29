@@ -21,6 +21,14 @@ Vector4::Vector4(float x, float y, float z, float w)
 	W = w;
 }
 
+void Vector4::Lerp(Vector4 with, float point)
+{
+	X = X + ((with.X - X) / (with.X - X)) * (point - X);
+	Y = Y + ((with.Y - Y) / (with.Y - Y)) * (point - Y);
+	Z = Z + ((with.Z - Z) / (with.Z - Z)) * (point - Z);
+	W = W + ((with.W - W) / (with.W - W)) * (point - W);
+}
+
 void Vector4::operator*(Vector4 other)
 {
 	X *= other.X;

@@ -126,7 +126,9 @@ void NetRecord()
 					{
 						// set position if not sus
 						veh->SetFacingDirection(Vector4(dx, dy, dz, dw)); // dw is important for roll btw ig
-						veh->SetPosition(Vector4(x, y, z, 0));
+						Vector4* pos = veh->GetPosition();
+						//veh->SetPosition(Vector4(x, y, z, 0));
+						pos->Lerp(Vector4(x, y, z, 0),0.5f);
 						// set velocity if not sus
 						if (vx < sus && vz < sus && vx > -sus && vz > -sus) 
 						{
