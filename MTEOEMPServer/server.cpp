@@ -70,12 +70,8 @@ void WaitForConnection()
 {
 	int clientSize = sizeof(client);
 	// accept connection with the client
-	int id = lastPlayerId;
-	if (id < 0)
-		id = 0;
-
-	playersSockets[id] = accept(serverSocket, (sockaddr*)&client, &clientSize );
-	if (playersSockets[id] == INVALID_SOCKET)
+	playersSockets[playersCount] = accept(serverSocket, (sockaddr*)&client, &clientSize );
+	if (playersSockets[playersCount] == INVALID_SOCKET)
 	{
 		printf("Wait For Connection - Client socket is invalid\n");
 		return;
@@ -88,33 +84,31 @@ void WaitForConnection()
 	{
 		char name[255];
 		ZeroMemory(name, 255);
-		int bytesrecevied = recv(playersSockets[id], name, 255, 0);
+		int bytesrecevied = recv(playersSockets[playersCount], name, 255, 0);
 		// store the name
-		playersNames[id] = name;
+		playersNames[playersCount] = name;
 
-		printf("Player %s (%d) connected from port %s (%p)\n", /*host*/name, id, service, playersSockets[playersCount]);
+		printf("Player %s (%d) connected from port %s (%p)\n", /*host*/name, playersCount, service, playersSockets[playersCount]);
 		
 		//CreateNetTransmitterThreadForPlayer(playersCount);
 		StartListeningToPlayer(playersCount);
 
 		playersCount++;
-		lastPlayerId = id;
 	}
 	else
 	{
 		char name[255];
 		ZeroMemory(name, 255);
-		int bytesrecevied = recv(playersSockets[id], name, 255, 0 );
+		int bytesrecevied = recv(playersSockets[playersCount], name, 255, 0 );
 		// store the name
-		playersNames[id] = name;
+		playersNames[playersCount] = name;
 
-		printf("Player %s (%d) connected from port %d (%p)\n", /*host*/name, id, ntohs(client.sin_port), playersSockets[playersCount]);
+		printf("Player %s (%d) connected from port %d (%p)\n", /*host*/name, playersCount, ntohs(client.sin_port), playersSockets[playersCount]);
 
 		//CreateNetTransmitterThreadForPlayer(playersCount);
 		StartListeningToPlayer(playersCount);
 
 		playersCount++;
-		lastPlayerId = id;
 	}
 	// wait for another player
 	WaitForConnection();

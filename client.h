@@ -3,7 +3,7 @@
 
 #pragma comment (lib, "ws2_32.lib")
 
-static int RecordSleepTime = 10;
+static int RecordSleepTime = 2;
 static bool connected = false;
 
 static WSADATA wsData;

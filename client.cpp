@@ -116,7 +116,7 @@ void NetRecord()
 			if (vehicle != TRUCK_INVALID && vehicle < 8)
 			{
 				CVehicle* veh = GetVehicleOfType(vehicle);
-				if (veh != NULL)
+				if (veh != NULL && veh != 0)
 				{
 					DoNotResetControlsForVehicle(veh);
 					veh->SetControllingFlags(0); // this will disable AI for that vehicle
@@ -126,9 +126,10 @@ void NetRecord()
 					{
 						// set position if not sus
 						veh->SetFacingDirection(Vector4(dx, dy, dz, dw)); // dw is important for roll btw ig
-						Vector4* pos = veh->GetPosition();
-						//veh->SetPosition(Vector4(x, y, z, 0));
-						pos->Lerp(Vector4(x, y, z, 0),0.5f);
+						//Vector4* pos = veh->GetPosition();
+						veh->SetPosition(Vector4(x, y, z, 0));
+						//pos->Lerp(Vector4(x, y, z, 0),0.5f);
+						//veh->SetPosition(Vector4(pos->X, pos->Y, pos->Z, pos->W));
 						// set velocity if not sus
 						if (vx < sus && vz < sus && vx > -sus && vz > -sus) 
 						{
