@@ -44,12 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LauncherWindow.cs" />
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="LauncherWindow.Designer.cs">
       <DependentUpon>LauncherWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="LauncherWindow.resx">
       <DependentUpon>LauncherWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Windows.h>
 
+
 typedef struct
 {
 	int CustomInput = 0; // bool
@@ -26,6 +27,7 @@ void ToggleDontResetControls(bool state);
 void OnGameUpdateHook();
 void InputUpdate();
 
+static bool InGame = false; // if is in a race or not
 static float playerSteer = 0.0f;
 
 static bool DontResetControls = false;
@@ -47,3 +49,6 @@ static float steerSmooth = 0.9f;
 static float accSmooth = 0.1f;
 void SteerSmooth();
 void AccelerateResetHook();
+
+void GameExitedHook();
+void GameEnteredHook();

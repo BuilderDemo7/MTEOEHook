@@ -164,13 +164,13 @@ void NetTransmit(int id)
 			// if that player's buffer is not null
 			//if (playersLastBuffer[playerid] != NULL)
 			//{
-				printf("Transmitting data from player %d to player %d\n", playerid, id);
-				char buf[4096];
-				ZeroMemory(buf, 4096);
-				int bytesReceived = recv(playersSockets[playerid], buf, 4096, 0);
+				//printf("Transmitting data from player %d to player %d\n", playerid, id);
+				char buf[256];
+				ZeroMemory(buf, 256);
+				int bytesReceived = recv(playersSockets[playerid], buf, 256, 0);
 				if (bytesReceived != 0 && bytesReceived != -1) 
 				{
-					send(playersSockets[id], /*playersLastBuffer[playerid]*/buf, 4096, 0);
+					send(playersSockets[id], /*playersLastBuffer[playerid]*/buf, 256, 0);
 				}
 			//}
 		}
@@ -191,9 +191,9 @@ void WaitForPlayerData(LPVOID sId)
 		// wait for client data
 			if (playersSockets[id] != NULL) {
 
-				char buf[4096];
-				ZeroMemory(buf, 4096);
-				int bytesReceived = recv(playersSockets[id], buf, 4096, 0);
+				char buf[256];
+				ZeroMemory(buf, 256);
+				int bytesReceived = recv(playersSockets[id], buf, 256, 0);
 				if (bytesReceived == SOCKET_ERROR || bytesReceived == 0)
 				{
 					//printf("Player %d disconnected\n",id);
@@ -253,7 +253,7 @@ void WaitForPlayerData(LPVOID sId)
 					//printf("Player %d is using truck %d and is positioned at \n%f, %f, %f\n%f, %f, %f, %f\nWithin damage and boost %f and %f\nAnd with the velocity\n%f, %f, %f, %f\nSteer input of %f\n", id, (int)buf[0], x,y,z, dx,dy,dz,dw, damage, boost, vx, vy, vz, vw, steer);
 					
 					// do something about it
-					playersLastBuffer[id] = buf;
+					//playersLastBuffer[id] = buf;
 					NetTransmit(id);
 
 					/*

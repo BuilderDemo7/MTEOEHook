@@ -112,13 +112,13 @@ namespace MTEOEMPLauncher
         }
     }
 
-    public partial class Form1 : Form
+    public partial class LauncherWindow : Form
     {
         public INIConfig ini = new INIConfig();
         public readonly string configFileName = "MTEOEHook.ini";
         public readonly string gameFileName = "Monster Trux Extreme - Offroad Edition.exe";
 
-        public Form1()
+        public LauncherWindow()
         {
             InitializeComponent();
             this.CenterToScreen();
@@ -137,7 +137,7 @@ namespace MTEOEMPLauncher
                     var frame = st.GetFrame(0);
                     var line = frame.GetFileLineNumber();
 
-                    MessageBox.Show(gameFileName + " could not be loaded!\n\nException Message:\n"+ex.Message+"\nLine: "+line, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(configFileName + " could not be loaded!\n\nException Message:\n"+ex.Message+"\nLine: "+line, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -155,6 +155,10 @@ namespace MTEOEMPLauncher
             }
             else
             {
+                ini.IP = IPtb.Text;
+                ini.Port = Convert.ToUInt16(Porttb.Text);
+                ini.Name = Nametb.Text;
+
                 ini.Save(configFileName);
                 this.Close();
                 Process.Start(gameFileName,"-quiet");

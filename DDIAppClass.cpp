@@ -221,3 +221,49 @@ void _declspec(naked) DisableSteerRightHook()
 		jmp jump_continue
 	}
 }
+
+// game exited/entered
+
+void GameEntered()
+{
+	printf("You entered a race in-game.");
+}
+
+void GameExited()
+{
+	printf("You exited a race in-game.");
+}
+
+// 0x00423F1D
+void _declspec(naked) GameEnteredHook()
+{
+	static int continueJMP = 0x00423F22;
+	_asm {
+		fstp dword ptr[esp]
+		sub edx, eax
+	}
+	InGame = true;
+	GameEntered();
+	_asm
+	{
+		jmp continueJMP
+	}
+}
+
+// 0x0055E77F
+void _declspec(naked) GameExitedHook()
+{
+	static int continueJMP = 0x0055E786;
+	_asm
+	{
+		mov[edx], al
+		inc[ecx]
+		movzx eax, al
+	}
+	InGame = false;
+	GameExited();
+	_asm
+	{
+		jmp continueJMP
+	}
+}

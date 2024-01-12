@@ -1,9 +1,10 @@
 #include <iostream>
 #include "CVehicle.h"
 #include "core/Vector4.h"
+//#include "DDIAppClass.h"
 
 // multiplayer
-#include "client.h"
+//#include "client.h"
 
 // cheat IDs
 #define CHEAT_PLAYER_INVENCIBLE_ID 0

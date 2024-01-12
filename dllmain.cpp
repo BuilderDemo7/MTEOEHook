@@ -212,10 +212,10 @@ void Hook()
 		Nop(0x0058A5E6, 1);
 		*/
 		// steer input hook
-		InjectHook(0x0058A64D, DisableSteerLeftHook, PATCH_JUMP);
-		Nop(0x0058A652, 1);
-		InjectHook(0x0058A61C, DisableSteerRightHook, PATCH_JUMP);
-		Nop(0x0058A621, 1);
+		//InjectHook(0x0058A64D, DisableSteerLeftHook, PATCH_JUMP);
+		//Nop(0x0058A652, 1);
+		//InjectHook(0x0058A61C, DisableSteerRightHook, PATCH_JUMP);
+		//Nop(0x0058A621, 1);
 	}
 	// ok this doesn't work so let me disable it
 	//HookD3D9(); // *atempt to
@@ -274,6 +274,10 @@ void Hook()
 		//CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(WaitForConnection), nullptr, 0, nullptr);;
 		//std::thread connectionThread = std::thread(WaitForConnection);
 	}
+
+	//InjectHook(0x0055E77F, GameExitedHook, PATCH_JUMP);
+	//Nop(0x0055E786, 2);
+	//InjectHook(0x00423F1D, GameEnteredHook, PATCH_JUMP);
 }
 
 

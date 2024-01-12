@@ -136,7 +136,7 @@ void NetRecord()
 							veh->SetVelocity(Vector4(vx, vy, vz, vw));
 							//veh->SetAngularVelocity(Vector4(avx, avy, avz, avw));
 						}
-						printf("Recording player position at %f, %f, %f\nVelocity of %f, %f, %f\nAngular Velocity of %f, %f, %f, %f\n", x, y, z, vx, vy, vz, avx, avy, avz, avw);
+						//printf("Recording player position at %f, %f, %f\nVelocity of %f, %f, %f\nAngular Velocity of %f, %f, %f, %f\n", x, y, z, vx, vy, vz, avx, avy, avz, avw);
 					}
 					veh->SetBoostingTime(boost);
 					veh->SetDamage(damage);
@@ -180,111 +180,111 @@ void NetSend()
 {
 	// send player data to the server
 	CVehicle* playerVeh = GetPlayerVehicle();
-	if (playerVeh != NULL && playerVeh != 0 && playerVeh != nullptr )
+	if (playerVeh != NULL && playerVeh != 0 && playerVeh != nullptr)
 	{
-		try
-		{
-			Vector4* pos = playerVeh->GetPosition();
-			Vector4* dir = playerVeh->GetFacingDirection();
-			Vector4* vel = playerVeh->GetVelocity();
-			Vector4* avel = playerVeh->GetVelocity();
-			float damage = playerVeh->GetDamage();
-			float boost = playerVeh->GetBoostingTime();
-			float steer = playerVeh->GetSteer();
-			float th = playerVeh->GetThrottle();
-
-			// other info
-			char bDamage[sizeof(float)];
-			char bBoostTime[sizeof(float)];
-			char bSteer[sizeof(float)];
-			char bThrottle[sizeof(float)];
-
-			// position
-			char bPX[sizeof(float)];
-			char bPY[sizeof(float)];
-			char bPZ[sizeof(float)];
-
-			// velocity
-			char bVX[sizeof(float)];
-			char bVY[sizeof(float)];
-			char bVZ[sizeof(float)];
-			char bVW[sizeof(float)];
-
-			// a. velocity
-			char bAVX[sizeof(float)];
-			char bAVY[sizeof(float)];
-			char bAVZ[sizeof(float)];
-			char bAVW[sizeof(float)];
-
-			// direction
-			char bDX[sizeof(float)];
-			char bDY[sizeof(float)];
-			char bDZ[sizeof(float)];
-			char bDW[sizeof(float)];
-
-			float2binary(pos->X, bPX);
-			float2binary(pos->Y, bPY);
-			float2binary(pos->Z, bPZ);
-
-			float2binary(dir->X, bDX);
-			float2binary(dir->Y, bDY);
-			float2binary(dir->Z, bDZ);
-			float2binary(dir->W, bDW);
-
-			float2binary(vel->X, bVX);
-			float2binary(vel->Y, bVY);
-			float2binary(vel->Z, bVZ);
-			float2binary(vel->W, bVW);
-
-			float2binary(avel->X, bAVX);
-			float2binary(avel->Y, bAVY);
-			float2binary(avel->Z, bAVZ);
-			float2binary(avel->W, bAVW);
-
-			float2binary(damage, bDamage);
-			float2binary(boost, bBoostTime);
-			float2binary(steer, bSteer);
-			float2binary(th, bThrottle);
-
-			// hey sorry for my hardcoded crap lol
-			char buffer[]
+			try
 			{
-				// referenced truck
-				(int)GetSelectedTruck(),
+				Vector4* pos = playerVeh->GetPosition();
+				Vector4* dir = playerVeh->GetFacingDirection();
+				Vector4* vel = playerVeh->GetVelocity();
+				Vector4* avel = playerVeh->GetVelocity();
+				float damage = playerVeh->GetDamage();
+				float boost = playerVeh->GetBoostingTime();
+				float steer = playerVeh->GetSteer();
+				float th = playerVeh->GetThrottle();
 
 				// other info
-				bDamage[0], bDamage[1], bDamage[2], bDamage[3],
-				bBoostTime[0], bBoostTime[1], bBoostTime[2], bBoostTime[3],
+				char bDamage[sizeof(float)];
+				char bBoostTime[sizeof(float)];
+				char bSteer[sizeof(float)];
+				char bThrottle[sizeof(float)];
 
 				// position
-				bPX[0], bPX[1], bPX[2], bPX[3],
-				bPY[0], bPY[1], bPY[2], bPY[3],
-				bPZ[0], bPZ[1], bPZ[2], bPZ[3],
-				// facing direction
-				bDX[0], bDX[1], bDX[2], bDX[3],
-				bDY[0], bDY[1], bDY[2], bDY[3],
-				bDZ[0], bDZ[1], bDZ[2], bDZ[3],
-				bDW[0], bDW[1], bDW[2], bDW[3],
+				char bPX[sizeof(float)];
+				char bPY[sizeof(float)];
+				char bPZ[sizeof(float)];
+
 				// velocity
-				bVX[0], bVX[1], bVX[2], bVX[3],
-				bVY[0], bVY[1], bVY[2], bVY[3],
-				bVZ[0], bVZ[1], bVZ[2], bVZ[3],
-				bVW[0], bVW[1], bVW[2], bVW[3],
-				// input
-				bSteer[0], bSteer[1], bSteer[2], bSteer[3],
-				// angular velocity
-				bAVX[0], bAVX[1], bAVX[2], bAVX[3],
-				bAVY[0], bAVY[1], bAVY[2], bAVY[3],
-				bAVZ[0], bAVZ[1], bAVZ[2], bAVZ[3],
-				bAVW[0], bAVW[1], bAVW[2], bAVW[3],
-				// input also
-				bThrottle[0], bThrottle[1], bThrottle[2], bThrottle[3],
-			};
-			send(clientSocket, buffer, 4096, 0);
-		}
-		catch (char *e)
-		{
-			// we failed
-		}
+				char bVX[sizeof(float)];
+				char bVY[sizeof(float)];
+				char bVZ[sizeof(float)];
+				char bVW[sizeof(float)];
+
+				// a. velocity
+				char bAVX[sizeof(float)];
+				char bAVY[sizeof(float)];
+				char bAVZ[sizeof(float)];
+				char bAVW[sizeof(float)];
+
+				// direction
+				char bDX[sizeof(float)];
+				char bDY[sizeof(float)];
+				char bDZ[sizeof(float)];
+				char bDW[sizeof(float)];
+
+				float2binary(pos->X, bPX);
+				float2binary(pos->Y, bPY);
+				float2binary(pos->Z, bPZ);
+
+				float2binary(dir->X, bDX);
+				float2binary(dir->Y, bDY);
+				float2binary(dir->Z, bDZ);
+				float2binary(dir->W, bDW);
+
+				float2binary(vel->X, bVX);
+				float2binary(vel->Y, bVY);
+				float2binary(vel->Z, bVZ);
+				float2binary(vel->W, bVW);
+
+				float2binary(avel->X, bAVX);
+				float2binary(avel->Y, bAVY);
+				float2binary(avel->Z, bAVZ);
+				float2binary(avel->W, bAVW);
+
+				float2binary(damage, bDamage);
+				float2binary(boost, bBoostTime);
+				float2binary(steer, bSteer);
+				float2binary(th, bThrottle);
+
+				// hey sorry for my hardcoded crap lol
+				char buffer[]
+				{
+					// referenced truck
+					(int)GetSelectedTruck(),
+
+					// other info
+					bDamage[0], bDamage[1], bDamage[2], bDamage[3],
+					bBoostTime[0], bBoostTime[1], bBoostTime[2], bBoostTime[3],
+
+					// position
+					bPX[0], bPX[1], bPX[2], bPX[3],
+					bPY[0], bPY[1], bPY[2], bPY[3],
+					bPZ[0], bPZ[1], bPZ[2], bPZ[3],
+					// facing direction
+					bDX[0], bDX[1], bDX[2], bDX[3],
+					bDY[0], bDY[1], bDY[2], bDY[3],
+					bDZ[0], bDZ[1], bDZ[2], bDZ[3],
+					bDW[0], bDW[1], bDW[2], bDW[3],
+					// velocity
+					bVX[0], bVX[1], bVX[2], bVX[3],
+					bVY[0], bVY[1], bVY[2], bVY[3],
+					bVZ[0], bVZ[1], bVZ[2], bVZ[3],
+					bVW[0], bVW[1], bVW[2], bVW[3],
+					// input
+					bSteer[0], bSteer[1], bSteer[2], bSteer[3],
+					// angular velocity
+					bAVX[0], bAVX[1], bAVX[2], bAVX[3],
+					bAVY[0], bAVY[1], bAVY[2], bAVY[3],
+					bAVZ[0], bAVZ[1], bAVZ[2], bAVZ[3],
+					bAVW[0], bAVW[1], bAVW[2], bAVW[3],
+					// input also
+					bThrottle[0], bThrottle[1], bThrottle[2], bThrottle[3],
+				};
+				send(clientSocket, buffer, 256, 0);
+			}
+			catch (char *e)
+			{
+				// we failed
+			}
 	}
 }
