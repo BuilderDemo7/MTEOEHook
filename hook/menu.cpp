@@ -104,7 +104,17 @@ void UpdateKeysGlobal()
 		printf("-> %p\n", playerTruck);
 	}
 
+	if (GetAsyncKeyState(VK_F7) & 0x1)
+	{
+		SetVariable("numVehicles", 1);
+	}
+	if (GetAsyncKeyState(VK_F8) & 0x1)
+	{
+		SetVariable("numVehicles", 8);
+	}
 
+	// R.I.P
+	/*
 	if (GetAsyncKeyState(VK_F7) & 0x1)
 	{
 		CVehicle* playerTruck = GetPlayerVehicle();
@@ -125,6 +135,7 @@ void UpdateKeysGlobal()
 		}
 		playerTruck->SetControllingFlags(0);
 	}
+	*/
 	// cheats keybinds
 	if (GetAsyncKeyState(0x30) & 0x1)
 	{

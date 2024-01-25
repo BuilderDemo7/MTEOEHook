@@ -1,5 +1,6 @@
 #pragma once
 #include "CVehicle.h"
+#include "client.h"
 #include <iostream>
 #include <Windows.h>
 
@@ -50,5 +51,10 @@ static float accSmooth = 0.1f;
 void SteerSmooth();
 void AccelerateResetHook();
 
+void CurrentLapTimerAdvance();
+
 void GameExitedHook();
 void GameEnteredHook();
+
+void SetVariable(const char* varName, int value);
+int GetVariable(const char* varName);

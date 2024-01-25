@@ -38,3 +38,14 @@ void NetTransmit(int id);
 
 void StartUpdate();
 void UpdateServer();
+
+void MessageConnectForPlayers(char playerName[255], int except);
+void AdvanceTimerForPlayer(int id);
+
+void RequestAIVehicleDataLoop();
+void RequestLastPlayerForAIVehicleData();
+
+static bool RequestAIData = true; // pretty lag for players
+void SetRequestAIData(bool value);
+static int RequestAIDataSleepTime = 50; // 50 ms
+void SetRequestAIDataSleepTime(int value);

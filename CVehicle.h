@@ -16,7 +16,9 @@ enum Truck : int
 	TRUCK_CRUSH = 4,
 	TRUCK_MIDNIGHT = 5,
 	TRUCK_DUMPER = 6,
-	TRUCK_BY4 = 7
+	TRUCK_BY4 = 7,
+
+	TRUCKS_COUNT = 8
 };
 
 class CVehicle

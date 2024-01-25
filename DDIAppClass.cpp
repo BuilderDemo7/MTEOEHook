@@ -18,6 +18,17 @@ void DDIAppClass::Unknown()
 	((void(__thiscall*)(bool))0x565D84)(false);
 }
 
+// In the .cfb/.cfg files from the game you could possibly set a variable's value from it's name but it uses "(REF)" as reference?
+void SetVariable(const char* varName, int value)
+{
+	((void(__thiscall*)(const char*, int))0x00422000)(varName, value);
+}
+
+int GetVariable(const char* varName)
+{
+	((void(__thiscall*)(const char*))0x00421D40)(varName);
+}
+
 float GetDeltaTime()
 {
 	return *(float*)(0x00661984);
@@ -219,6 +230,45 @@ void _declspec(naked) DisableSteerRightHook()
 	_asm
 	{
 		jmp jump_continue
+	}
+}
+
+// timers
+
+// 0x00588CD5
+void _declspec(naked) CurrentLapTimerAdvance()
+{
+	static int continueJMP = 0x00588CDB;
+	static int srcVehPtr = 0;
+	//if (!IsConnected()) {
+		_asm {
+			fstp dword ptr[edi + 0x27C]
+		}
+		_asm
+		{
+			mov[srcVehPtr], edi // srcVehPtr = (register)EDI;
+		}
+	//}
+	//else
+	if (IsConnected())
+    {
+		// go back from the last time the timer advanced from the game's delta time
+		*(float*)(srcVehPtr+0x27C) -= GetDeltaTime();
+
+		// now make the server timer...
+		*(float*)(srcVehPtr + 0x27C) += LastReceiveTime + GetDeltaTime();
+
+		if (*(float*)(srcVehPtr + 0x27C) < 0)
+		{
+			*(float*)(srcVehPtr + 0x27C) = 0;
+		}
+	}
+	//if (IsConnected())
+	//{
+	//	ClientAdvanceTime();
+	//}
+	_asm {
+		jmp continueJMP
 	}
 }
 

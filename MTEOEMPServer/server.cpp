@@ -4,6 +4,21 @@
 #include <thread>
 #include <string>
 
+enum MultiplayerCommand : int
+{
+	COMMAND_PLAYERVEHICLEDATA = 0x10,
+
+	COMMAND_PLAYERCHAT = 0x11,
+	COMMAND_PLAYERDISCONNECT = 0x12,
+	COMMAND_PLAYERCONNECT = 0x13,
+
+	COMMAND_TIMEADVANCE = 0x13,
+
+	// used for sending others AI cars data
+	COMMAND_AIVEHICLEDATA = 0x14,
+	COMMAND_REQUEST_AIVEHICLEDATA = 0x15,
+};
+
 #pragma comment (lib, "ws2_32.lib")
 
 bool PrepareServer(short port, const char* ip)
@@ -87,6 +102,7 @@ void WaitForConnection()
 		int bytesrecevied = recv(playersSockets[playersCount], name, 255, 0);
 		// store the name
 		playersNames[playersCount] = name;
+		MessageConnectForPlayers(name, playersCount);
 
 		printf("Player %s (%d) connected from port %s (%p)\n", /*host*/name, playersCount, service, playersSockets[playersCount]);
 		
@@ -102,6 +118,7 @@ void WaitForConnection()
 		int bytesrecevied = recv(playersSockets[playersCount], name, 255, 0 );
 		// store the name
 		playersNames[playersCount] = name;
+		MessageConnectForPlayers(name, playersCount);
 
 		printf("Player %s (%d) connected from port %d (%p)\n", /*host*/name, playersCount, ntohs(client.sin_port), playersSockets[playersCount]);
 
@@ -114,6 +131,15 @@ void WaitForConnection()
 	WaitForConnection();
 }
 
+void AdvanceTimerForPlayer(int id)
+{
+	char buf[]
+	{
+		COMMAND_TIMEADVANCE
+	};
+	send(playersSockets[id], /*playersLastBuffer[playerid]*/buf, 4, 0);
+}
+
 void DisposePlayer(int id)
 {
 	closesocket(playersSockets[id]);
@@ -123,6 +149,7 @@ void DisposePlayer(int id)
 	playersNames[id] = NULL;
 }
 
+// OLD
 void CreateNetTransmitterThreadForPlayer(int id)
 {
 	CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(NetTransmitter), (int*)id, 0, nullptr);
@@ -146,7 +173,80 @@ void NetTransmitter(LPVOID sId)
 		}
 		*/
 
+		AdvanceTimerForPlayer(id);
 		NetTransmit(id);
+	}
+}
+
+void MessageConnectForPlayers(char playerName[255], int except)
+{
+	for (int playerid = 0; playerid < playersCount; playerid++)
+	{
+		// ignore this player because we don't want to receive our own data
+		if (playerid != except)
+		{
+			// if that player is not null
+			if (playersSockets[playerid] != NULL)
+			{
+				// if that player's buffer is not null
+				//if (playersLastBuffer[playerid] != NULL)
+				//{
+					//printf("Transmitting data from player %d to player %d\n", playerid, id);
+				char buf[]
+				{
+					COMMAND_PLAYERCONNECT,
+					playerid,
+					playerName[0], playerName[1], playerName[2], playerName[3],
+					playerName[4], playerName[5], playerName[6], playerName[7],
+					playerName[8], playerName[9], playerName[10], playerName[11],
+					playerName[12], playerName[13], playerName[14], playerName[15],
+					playerName[16], playerName[17], playerName[18], playerName[19],
+					playerName[20], playerName[21], playerName[22], playerName[23],
+					playerName[24], playerName[25], playerName[26], playerName[27],
+					playerName[28], playerName[29], playerName[30], playerName[31],
+					playerName[32], playerName[33], playerName[34], playerName[35],
+					playerName[36], playerName[37], playerName[38], playerName[39]
+				};
+				send(playersSockets[playerid], /*playersLastBuffer[playerid]*/buf, 256, 0);
+				//}
+			}
+		}
+	}
+}
+
+void MessageDisconnectForPlayers(char playerName[255], int except)
+{
+	for (int playerid = 0; playerid < playersCount; playerid++)
+	{
+		// ignore this player because we don't want to receive our own data
+		if (playerid != except)
+		{
+			// if that player is not null
+			if (playersSockets[playerid] != NULL)
+			{
+				// if that player's buffer is not null
+				//if (playersLastBuffer[playerid] != NULL)
+				//{
+					//printf("Transmitting data from player %d to player %d\n", playerid, id);
+				char buf[]
+				{
+					COMMAND_PLAYERDISCONNECT,
+					playerid,
+					playerName[0], playerName[1], playerName[2], playerName[3],
+					playerName[4], playerName[5], playerName[6], playerName[7],
+					playerName[8], playerName[9], playerName[10], playerName[11],
+					playerName[12], playerName[13], playerName[14], playerName[15],
+					playerName[16], playerName[17], playerName[18], playerName[19],
+					playerName[20], playerName[21], playerName[22], playerName[23],
+					playerName[24], playerName[25], playerName[26], playerName[27],
+					playerName[28], playerName[29], playerName[30], playerName[31],
+					playerName[32], playerName[33], playerName[34], playerName[35],
+					playerName[36], playerName[37], playerName[38], playerName[39]
+				};
+				send(playersSockets[playerid], /*playersLastBuffer[playerid]*/buf, 256, 0);
+				//}
+			}
+		}
 	}
 }
 
@@ -183,6 +283,31 @@ void StartListeningToPlayer(int id)
 	CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(WaitForPlayerData), (int*)id, 0, nullptr);
 }
 
+// thread created in main.cpp
+void RequestAIVehicleDataLoop()
+{
+	while (RequestAIData) {
+		RequestLastPlayerForAIVehicleData();
+		Sleep(RequestAIDataSleepTime);
+	}
+}
+
+void RequestLastPlayerForAIVehicleData()
+{
+	for (int id = 0; id < playersCount; id++)
+	{
+		if (playersSockets[id] != NULL)
+		{
+			char buf[]
+			{
+				COMMAND_REQUEST_AIVEHICLEDATA
+			};
+			send(playersSockets[id], /*playersLastBuffer[playerid]*/buf, 1, 0);
+			break;
+		}
+	}
+}
+
 void WaitForPlayerData(LPVOID sId)
 {
 	int id = (int)sId; //*static_cast<int*>(sId);
@@ -202,6 +327,20 @@ void WaitForPlayerData(LPVOID sId)
 					{
 						name = "???";
 					}
+					char playerNameB[255]
+					{ 
+						name[0], name[1], name[2], name[3],
+						name[4], name[5], name[6], name[7],
+						name[8], name[9], name[10], name[11],
+						name[12], name[13], name[14], name[15],
+						name[16], name[17], name[18], name[19],
+						name[20], name[21], name[22], name[23],
+						name[24], name[25], name[26], name[27],
+						name[28], name[29], name[30], name[31],
+						name[32], name[33], name[34], name[35],
+						name[36], name[37], name[38], name[39] 
+					};
+					MessageDisconnectForPlayers(playerNameB, -1);
 					printf("%s disconnected\n",name);
 					// close the socket
 					DisposePlayer(id);
@@ -254,6 +393,8 @@ void WaitForPlayerData(LPVOID sId)
 					
 					// do something about it
 					//playersLastBuffer[id] = buf;
+					
+					//AdvanceTimerForPlayer(id);
 					NetTransmit(id);
 
 					/*
@@ -284,4 +425,13 @@ void StartUpdate()
 void UpdateServer()
 {
 	// TODO: Update server here
+}
+
+void SetRequestAIData(bool value)
+{
+	RequestAIData = value;
+}
+void SetRequestAIDataSleepTime(int value)
+{
+	RequestAIDataSleepTime = value;
 }

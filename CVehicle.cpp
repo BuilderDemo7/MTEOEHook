@@ -10,6 +10,9 @@
 #define CHEAT_PLAYER_INVENCIBLE_ID 0
 #define CHEAT_PLAYER_INFBOOST_ID 1
 
+// shared variables between other programs
+#define SHARED_VARIABLES_PLAYER_VEHICLE 0x00A00100
+
 /*
 #define MATRIX_MAINPTR_OFFSET = 0x1F4
 #define MATRIX_PTR1_OFFSET = 0x10
@@ -449,8 +452,10 @@ CVehicle* GetPlayerVehicle()
 			}
 		    if (criteriaTruck != NULL)
 			{
-				if (criteriaTruck->GetVehicleType() != TRUCK_INVALID)
-					return GetVehicleOfType(selectedTruck);
+				if (criteriaTruck->GetVehicleType() != TRUCK_INVALID) {
+					//*(int*)(SHARED_VARIABLES_PLAYER_VEHICLE) = (int)criteriaTruck;
+					return criteriaTruck;
+				}
 			}
 		}
 		catch(char *e)

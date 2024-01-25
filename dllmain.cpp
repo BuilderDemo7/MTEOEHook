@@ -52,7 +52,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
 // D3D9 hooking stuff
 // 0x5D0C1F20 is EndScene
-LPCWSTR gWindowName = L"Monster Trux";
+LPCWSTR gWindowName = L"Device Selection";
 void RenderOverlay(IDirect3DDevice9* pDevice)
 {
 	imguioverlay::EndScene(pDevice, gWindowName);
@@ -81,10 +81,9 @@ HRESULT __stdcall hookEndScene(IDirect3DDevice9* pDevice)
 
 void HookD3D9()
 {
-	InjectHook(0x5D0C1F20, hookEndScene, PATCH_JUMP);
-	Nop(0x5D0C1F20+0x5, 2);
+	//InjectHook(0x5D0C1F20, hookEndScene, PATCH_JUMP);
+	//Nop(0x5D0C1F20+0x5, 2);
 	
-	/*
 	auto addrEndScene = FindEndScene();
 	if (addrEndScene)
 	{
@@ -97,7 +96,6 @@ void HookD3D9()
 	{
 		printf("Failed to hook D3D9 EndScene!");
 	}
-	*/
 }
 
 bool StartMultiplayer(short port, const char* ip)
@@ -173,6 +171,16 @@ void Hook()
 {
 	// Main
     AllocConsole();
+	
+	bool debugBuild =
+#ifdef NDEBUG
+		false
+#else
+		true
+#endif
+		;
+	printf("-- MTEOE Hook (%s) --\n", debugBuild ? "Debug" : "Release");
+
 	freopen("CONIN$", "r", stdin);
 	freopen("CONOUT$", "w", stdout);
 	freopen("CONOUT$", "w", stderr);
@@ -217,6 +225,7 @@ void Hook()
 		//InjectHook(0x0058A61C, DisableSteerRightHook, PATCH_JUMP);
 		//Nop(0x0058A621, 1);
 	}
+
 	// ok this doesn't work so let me disable it
 	//HookD3D9(); // *atempt to
 
@@ -230,9 +239,13 @@ void Hook()
 	printf("    F5 - Makes player's vehicle fully-damaged\n");
 	printf("  == DEV ==\n");
 	printf("    F6 - Prints the pointer to player's vehicle in-game\n");
-	printf("  == AI TEST ==\n");
-	printf("    F7 - Set AI enabled for player's vehicle in-game\n");
-	printf("    F8 - Set AI disabled for player's vehicle in-game\n");
+	// R.I.P
+	//printf("  == AI TEST ==\n");
+	//printf("    F7 - Set AI enabled for player's vehicle in-game\n");
+	//printf("    F8 - Set AI disabled for player's vehicle in-game\n");
+	printf("  == VAR TEST ==\n");
+	printf("    F7 - SetVariable('numVehicles', 1);\n");
+	printf("    F8 - SetVariable('numVehicles', 8);\n");
 	printf("  == CHEATS ==\n");
 	printf("    0 - Toggle player's vehicle is invincible to any damage\n");
 	printf("    1 - Trigger boost (even if you don't have nitro)\n");
@@ -262,6 +275,10 @@ void Hook()
 		    printf("Connection failed.\n");
 		else 
 		{
+			// inject timer hook when connected
+			//InjectHook(0x00588CD5, CurrentLapTimerAdvance, PATCH_JUMP);
+			//Nop(0x00588CDA, 1);
+
 			printf("Connection succeded!\n");
 			int nameSize = sizeof(config.Name) * 8;
 			if (nameSize > 255)
