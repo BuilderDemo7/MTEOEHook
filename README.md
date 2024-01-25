@@ -12,13 +12,18 @@ https://discord.gg/hVexf6SMye
 
 # Online Multiplayer
 The online multiplayer mod is still W.i.P, to enable it go to the configuration file **MTEOEHook.ini** 
-and set **Multiplayer** to 1.              
-               
-Make sure your friend is in the same map as yours and that he did not select the same monster truck as yours.                      
+and set **Multiplayer** to 1.                                   
+     
+# Before launching the multiplayer	 
+1. Using any hex editor like HxD open **DataPC.wad** in your game directory. Go to the find tool and search for the text "numVehicles"                
+2. Find some that contains "4" around it for example: "numVehicles|(S32)**4**"                                             		   
+3. Replace that "4" by "8", 8 is the maximum vehicles in a race, if bigger than that the game will crash.                                       	
+	
+Make sure your friend is in the same track as yours and that he did not select the same monster truck as yours.                      
 ## Server
 You can start a server by simple executing **MTEOEMPServer.exe**, it uses the same configuration file as the client (MTEOEHook.ini)
 # Customizing Controls
-This feature is pretty buggy and might not make your experience in game not good until it's fixed.                           
+This feature is pretty buggy and might not make your experience in game good until it's fixed.                           
 Open **MTEOEHook.ini**, set *CustomInput* to 1, you will have the following controls to customize:
 
 - AccelerateKey is the key for accelerating your truck *(Default: Enter, VK: 13)*
