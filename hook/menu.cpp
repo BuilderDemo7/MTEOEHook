@@ -106,11 +106,11 @@ void UpdateKeysGlobal()
 
 	if (GetAsyncKeyState(VK_F7) & 0x1)
 	{
-		SetVariable("numVehicles", 1);
+		SetVariable(0x00661994, 0x00661994);
 	}
 	if (GetAsyncKeyState(VK_F8) & 0x1)
 	{
-		SetVariable("numVehicles", 8);
+		//SetVariable("numVehicles", 8);
 	}
 
 	// R.I.P
@@ -154,8 +154,22 @@ void UpdateKeysGlobal()
 	}
 	if (GetAsyncKeyState(0x32) & 0x1)
 	{
+		CVehicle* playerTruck = GetPlayerVehicle();
+		// trigger nitro
+		if (playerTruck == NULL | playerTruck == 0)
+		{
+			printf("Failed to use super handbrake!\n");
+			return;
+		}
+		Vector4* vel = playerTruck->GetVelocity();
+		playerTruck->SetVelocity(Vector4(0, vel->Y, 0));
+	}
+	/*
+	if (GetAsyncKeyState(0x32) & 0x1)
+	{
 		ToggleVehicleCheat(1, NULL); // inf time boost
 	}
+	*/
 	/*
 	if (GetAsyncKeyState(0x33) & 0x1)
 	{

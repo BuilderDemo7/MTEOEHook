@@ -244,12 +244,13 @@ void Hook()
 	//printf("    F7 - Set AI enabled for player's vehicle in-game\n");
 	//printf("    F8 - Set AI disabled for player's vehicle in-game\n");
 	printf("  == VAR TEST ==\n");
-	printf("    F7 - SetVariable('numVehicles', 1);\n");
-	printf("    F8 - SetVariable('numVehicles', 8);\n");
+	printf("    F7 - SetVariable(0x00661994, 0x00661994);\n");
+	printf("    F8 - (DISABLED)SetVariable('numVehicles', 8);\n");
 	printf("  == CHEATS ==\n");
 	printf("    0 - Toggle player's vehicle is invincible to any damage\n");
 	printf("    1 - Trigger boost (even if you don't have nitro)\n");
-	printf("    2 - Trigger infinite time boost\n");
+	//printf("    2 - Trigger infinite time boost\n");
+	printf("    2 - SUPER Hand-brake\n");
 	printf("    3 - Print player's vehicle position\n");
 	printf("    4 - Give player full nitro\n");
 

@@ -56,5 +56,5 @@ void CurrentLapTimerAdvance();
 void GameExitedHook();
 void GameEnteredHook();
 
-void SetVariable(const char* varName, int value);
+void SetVariable(int unk, int unkptr);
 int GetVariable(const char* varName);

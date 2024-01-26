@@ -19,9 +19,9 @@ void DDIAppClass::Unknown()
 }
 
 // In the .cfb/.cfg files from the game you could possibly set a variable's value from it's name but it uses "(REF)" as reference?
-void SetVariable(const char* varName, int value)
+void SetVariable(int unk, int unkptr)
 {
-	((void(__thiscall*)(const char*, int))0x00422000)(varName, value);
+	((void(__thiscall*)(bool, int))0x00422000)(unk, unkptr);
 }
 
 int GetVariable(const char* varName)
